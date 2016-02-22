@@ -36,6 +36,7 @@ class SimpleGraphTest
         g0.remove("3")
         println(g0)
         println(g0.edges)
+        println(g0.getNeighbors("1"))
 
         val g1 = SimpleGraph()
         val n1 = arrayOf("0","1","2")
@@ -46,9 +47,11 @@ class SimpleGraphTest
         g1.put(n1[1],n1[2])
         println(g1)
         println(g1.edges)
+        println(g1.getNeighbors("1"))
 
         assert(g1.toString() == g0.toString())
         assert(g1.edges.toString() == g0.edges.toString())
+        assert(g1.getNeighbors("1").toString() == g0.getNeighbors("1").toString())
     }
 
     @Test
@@ -70,6 +73,7 @@ class SimpleGraphTest
         g0.remove(n0[1],n0[3])
         println(g0)
         println(g0.edges)
+        println(g0.getNeighbors("1"))
 
         val g1 = SimpleGraph()
         val n1 = arrayOf("0","1","2","3")
@@ -81,8 +85,10 @@ class SimpleGraphTest
         g1.put(n1[1],n1[2])
         println(g1)
         println(g1.edges)
+        println(g1.getNeighbors("1"))
 
         assert(g1.toString() == g0.toString())
         assert(g1.edges.toString() == g0.edges.toString())
+        assert(g1.getNeighbors("1").toString() == g0.getNeighbors("1").toString())
     }
 }

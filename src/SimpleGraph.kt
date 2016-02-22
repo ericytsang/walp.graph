@@ -20,13 +20,13 @@ class SimpleGraph():MutableGraph<String,SimpleEdge>
     override fun toString():String
     {
         val s = StringBuilder()
-        adjacencyList.map {it.key}.forEach()
+        adjacencyList.map {it.key}.forEachIndexed()
         {
-            node ->
+            i, node ->
+            if (i != 0) s.append('\n')
             s.append(node)
             s.append(" : ")
             s.append(getNeighbors(node))
-            s.append('\n')
         }
         return s.toString()
     }
