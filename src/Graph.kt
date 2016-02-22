@@ -51,6 +51,7 @@ fun <N:Any,E:Edge> MutableGraph<N,E>.put(node:N):N?
 }
 fun <N:Any,E:Edge> MutableGraph<N,E>.remove(node:N):N?
 {
+    // fixme: optimize this
     adjacencyList.remove(node)
     adjacencyList.values.forEach {it.removeAll {it == node}}
     edgeMap.entries.removeAll {it.value.src == node || it.value.dst == node}
