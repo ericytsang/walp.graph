@@ -44,13 +44,13 @@ abstract class MutableGraph<N:Any,E:Edge>:Graph<N,E>()
     abstract override val edgeMap:MutableMap<Pair<N,N>,E>
 
     // nodes
-    fun put(node:N):N?
+    fun put(node:N):N? = synchronized(this)
     {
         adjacencyList.getOrPut(node,{LinkedHashSet()})
         return nodeMap.put(node,node)
     }
 
-    fun remove(node:N):N?
+    fun remove(node:N):N? = synchronized(this)
     {
         adjacencyList.remove(node)
         adjacencyList.values.forEach {it.removeAll {it == node}}
@@ -59,7 +59,7 @@ abstract class MutableGraph<N:Any,E:Edge>:Graph<N,E>()
     }
 
     // edges
-    fun put(src:N,dst:N):E?
+    fun put(src:N,dst:N):E? = synchronized(this)
     {
         getOrPut(src)
         getOrPut(dst)
@@ -67,14 +67,14 @@ abstract class MutableGraph<N:Any,E:Edge>:Graph<N,E>()
         return edgeMap.put(Pair(src,dst),edgeFactory.make(src,dst))
     }
 
-    fun remove(src:N,dst:N):E?
+    fun remove(src:N,dst:N):E? = synchronized(this)
     {
         adjacencyList[src]?.remove(dst)
         return edgeMap.remove(Pair(src,dst))
     }
 }
 
-fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(node:N):N
+fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(node:N):N = synchronized(this)
 {
     var result = get(node)
     if (result == null)
@@ -85,7 +85,7 @@ fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(node:N):N
     return result!!
 }
 
-fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(src:N,dst:N):E
+fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(src:N,dst:N):E = synchronized(this)
 {
     var result = get(src,dst)
     if (result == null)
