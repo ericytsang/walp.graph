@@ -46,7 +46,7 @@ interface EdgeFactory<E:Edge>
 // nodes
 fun <N:Any,E:Edge> MutableGraph<N,E>.put(node:N):N?
 {
-    adjacencyList.put(node,LinkedHashSet())
+    adjacencyList.getOrPut(node,{LinkedHashSet()})
     return nodeMap.put(node,node)
 }
 fun <N:Any,E:Edge> MutableGraph<N,E>.remove(node:N):N?
@@ -70,6 +70,8 @@ fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(node:N):N
 // edges
 fun <N:Any,E:Edge> MutableGraph<N,E>.put(src:N,dst:N):E?
 {
+    getOrPut(src)
+    getOrPut(dst)
     adjacencyList.getOrPut(src,{LinkedHashSet()}).add(dst)
     return edgeMap.put(Pair(src,dst),edgeFactory.make(src,dst))
 }
