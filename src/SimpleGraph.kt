@@ -10,7 +10,7 @@ object SimpleEdgeFactory:EdgeFactory<SimpleEdge>
     override fun make(src:Any,dst:Any):SimpleEdge = SimpleEdge(src,dst)
 }
 
-class SimpleGraph():MutableGraph<String,SimpleEdge>
+class SimpleGraph():MutableGraph<String,SimpleEdge>()
 {
     override val edgeFactory:EdgeFactory<SimpleEdge> = SimpleEdgeFactory
     override val adjacencyList:MutableMap<String,MutableSet<String>> = LinkedHashMap()
