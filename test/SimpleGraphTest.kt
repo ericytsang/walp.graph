@@ -9,7 +9,7 @@ class SimpleGraphTest
     fun toStringTest()
     {
         val g = SimpleGraph()
-        val n = arrayOf(StringNode("0"),StringNode("1"),StringNode("2"),StringNode("3"))
+        val n = arrayOf("0","1","2","3")
         n.forEach {g.put(it)}
         g.put(n[0],n[1])
         g.put(n[3],n[1])
@@ -24,7 +24,7 @@ class SimpleGraphTest
     fun removeTest()
     {
         val g0 = SimpleGraph()
-        val n0 = arrayOf(StringNode("0"),StringNode("1"),StringNode("2"),StringNode("3"))
+        val n0 = arrayOf("0","1","2","3")
         n0.forEach {g0.put(it)}
         g0.put(n0[0],n0[1])
         g0.put(n0[3],n0[1])
@@ -34,12 +34,12 @@ class SimpleGraphTest
         g0.put(n0[1],n0[0])
         g0.put(n0[1],n0[2])
         g0.put(n0[1],n0[3])
-        g0.remove(StringNode("3"))
+        g0.remove("3")
         println(g0)
         println(g0.edges)
 
         val g1 = SimpleGraph()
-        val n1 = arrayOf(StringNode("0"),StringNode("1"),StringNode("2"))
+        val n1 = arrayOf("0","1","2")
         n1.forEach {g1.put(it)}
         g1.put(n1[0],n1[1])
         g1.put(n1[2],n1[1])

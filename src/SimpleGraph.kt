@@ -3,24 +3,19 @@ import java.util.*
 /**
  * Created by Eric on 2/21/2016.
  */
-data class SimpleEdge(override val src:Node,override val dst:Node):Edge
-
-data class StringNode(val name:String):Node
-{
-    override fun toString():String = name
-}
+data class SimpleEdge(override val src:Any,override val dst:Any):Edge
 
 object SimpleEdgeFactory:EdgeFactory<SimpleEdge>
 {
-    override fun make(src:Node,dst:Node):SimpleEdge = SimpleEdge(src,dst)
+    override fun make(src:Any,dst:Any):SimpleEdge = SimpleEdge(src,dst)
 }
 
-class SimpleGraph():MutableGraph<StringNode,SimpleEdge>
+class SimpleGraph():MutableGraph<String,SimpleEdge>
 {
     override val edgeFactory:EdgeFactory<SimpleEdge> = SimpleEdgeFactory
-    override val adjacencyList:MutableMap<StringNode,MutableSet<StringNode>> = LinkedHashMap()
-    override val nodeMap:MutableMap<Any,StringNode> = LinkedHashMap()
-    override val edgeMap:MutableMap<Pair<StringNode,StringNode>,SimpleEdge> = LinkedHashMap()
+    override val adjacencyList:MutableMap<String,MutableSet<String>> = LinkedHashMap()
+    override val nodeMap:MutableMap<Any,String> = LinkedHashMap()
+    override val edgeMap:MutableMap<Pair<String,String>,SimpleEdge> = LinkedHashMap()
 
     override fun toString():String
     {
