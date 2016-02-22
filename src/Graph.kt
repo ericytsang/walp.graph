@@ -22,18 +22,19 @@ abstract class Graph<N:Any,E:Edge>
 
     // misc
     fun getNeighbors(node:N):Set<N> = adjacencyList[node] ?: throw IllegalArgumentException("node does not exist")
-    fun getEdges(node:N):Set<E> = getNeighbors(node).map {get(node,it) ?: throw IllegalStateException("edgeMap is missing an edge")}.toSet()
 
     // nodes
     fun get(key:Any):N? = nodeMap[key]
-    fun has(key:Any):Boolean = get(key) != null
     val nodes:Set<N> get() = adjacencyList.keys
 
     // edges
     fun get(src:Any,dst:Any):E? = edgeMap[Pair(src,dst)]
-    fun has(src:Any,dst:Any):Boolean = get(src,dst) != null
     val edges:Set<E> get() = edgeMap.values.toSet()
 }
+
+fun <N:Any,E:Edge> Graph<N,E>.getEdges(node:N):Set<E> = getNeighbors(node).map {get(node,it) ?: throw IllegalStateException("edgeMap is missing an edge")}.toSet()
+fun <N:Any,E:Edge> Graph<N,E>.has(key:Any):Boolean = get(key) != null
+fun <N:Any,E:Edge> Graph<N,E>.has(src:Any,dst:Any):Boolean = get(src,dst) != null
 
 abstract class MutableGraph<N:Any,E:Edge>:Graph<N,E>()
 {
@@ -51,22 +52,10 @@ abstract class MutableGraph<N:Any,E:Edge>:Graph<N,E>()
 
     fun remove(node:N):N?
     {
-        // fixme: optimize this
         adjacencyList.remove(node)
         adjacencyList.values.forEach {it.removeAll {it == node}}
         edgeMap.entries.removeAll {it.value.src == node || it.value.dst == node}
         return nodeMap.remove(node)
-    }
-
-    fun getOrPut(node:N):N
-    {
-        var result = get(node)
-        if (result == null)
-        {
-            put(node)
-            result = get(node)
-        }
-        return result!!
     }
 
     // edges
@@ -83,15 +72,26 @@ abstract class MutableGraph<N:Any,E:Edge>:Graph<N,E>()
         adjacencyList[src]?.remove(dst)
         return edgeMap.remove(Pair(src,dst))
     }
+}
 
-    fun getOrPut(src:N,dst:N):E
+fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(node:N):N
+{
+    var result = get(node)
+    if (result == null)
     {
-        var result = get(src,dst)
-        if (result == null)
-        {
-            put(src,dst)
-            result = get(src,dst)
-        }
-        return result!!
+        put(node)
+        result = get(node)
     }
+    return result!!
+}
+
+fun <N:Any,E:Edge> MutableGraph<N,E>.getOrPut(src:N,dst:N):E
+{
+    var result = get(src,dst)
+    if (result == null)
+    {
+        put(src,dst)
+        result = get(src,dst)
+    }
+    return result!!
 }
